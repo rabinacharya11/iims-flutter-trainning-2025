@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:port_app/home_screen.dart';
+import 'package:port_app/add_new_expense_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MeroApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MeroApp extends StatelessWidget {
+  const MeroApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Portfolio Atp",
-      home: HomeScreen(),
+      home: AddExpenseScreen(),
     );
   }
 }
-
-
