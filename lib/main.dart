@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:port_app/add_new_expense_screen.dart';
+import 'package:port_app/login_screen.dart';
 
 void main() {
   runApp(MeroApp());
@@ -10,9 +10,6 @@ class MeroApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AddExpenseScreen(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
   }
 }
