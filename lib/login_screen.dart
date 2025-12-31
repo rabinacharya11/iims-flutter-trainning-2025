@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:port_app/providers/login_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -30,7 +32,9 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       TextFormField(
                         controller: userCtrl,
+
                         decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email),
                           labelText: 'Email',
 
                           hintText: 'Enter your email',
@@ -41,36 +45,78 @@ class LoginScreen extends StatelessWidget {
                         keyboardType: TextInputType.emailAddress,
                       ),
                       SizedBox(height: 16),
-                      TextFormField(
-                        obscureText: true,
-                        obscuringCharacter: "#",
-                        controller: pwCtrl,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
+                      Consumer<LoginProvider>(
+                        builder: (context, value, child) => TextFormField(
+                          obscureText: !value.showPassword,
+                          obscuringCharacter: "#",
+                          controller: pwCtrl,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            prefixIcon: Icon(Icons.password),
+                            suffixIcon: InkWell(
+                              onTap: () => value.togglePasswordView(),
+                              child: Icon(
+                                !value.showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                            ),
 
-                          hintText: 'Enter your password',
+                            hintText: 'Enter your password',
 
-                          border: OutlineInputBorder(),
+                            border: OutlineInputBorder(),
+                          ),
+
+                          keyboardType: TextInputType.emailAddress,
+
+                          validator: (value) {
+                            if (value == null || value.length < 8) {
+                              return "Enter a strong password";
+                            }
+                            return null;
+                          },
                         ),
-
-                        keyboardType: TextInputType.emailAddress,
-
-                        validator: (value) {
-                          if (value == null || value.length < 8) {
-                            return "Enter a strong password";
-                          }
-                          return null;
-                        },
                       ),
 
-                      TextButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            print("test");
-                          }
-                        },
-                        child: Text("Login"),
+                      // String bata change garne method
+                      Consumer<LoginProvider>(
+                        builder: (context, value, child) => TextButton(
+                          onPressed: () {
+                            value.loginTextChange();
+                          },
+                          child: Text(value.loginText),
+                        ),
                       ),
+
+                      SizedBox(height: 32),
+
+                      Consumer<LoginProvider>(
+                        builder: (context, value, child) => TextButton(
+                          onPressed: () {
+                            value.changeLoginText();
+                          },
+                          child: Text(value.isLoggedIn ? "Logged In" : "Login"),
+                        ),
+                      ),
+
+                      SizedBox(height: 32),
+
+                      Consumer<LoginProvider>(
+                        builder: (context, value, child) => InkWell(
+                          onTap: () {
+                            value.login();
+                          },
+                          child: value.isLoading
+                              ? CircularProgressIndicator()
+                              : Text("Login"),
+                        ),
+                      ),
+
+                      ///
+                      ///
+                      ///
+                      ///
+                      ///
                     ],
                   ),
                 ),

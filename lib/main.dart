@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:port_app/login_screen.dart';
+import 'package:port_app/providers/login_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MeroApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => LoginProvider())],
+
+      child: MeroApp(),
+    ),
+  );
 }
 
 class MeroApp extends StatelessWidget {
