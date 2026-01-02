@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "138491180446",
+    "project_id": "port-app-f45eb",
+    "storage_bucket": "port-app-f45eb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138491180446:android:6f3fef9a21ebd147c5928f",
+        "android_client_info": {
+          "package_name": "com.example.port_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCqu2SVTEPMK6TCJbBnqvfadPwWI_uvF0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

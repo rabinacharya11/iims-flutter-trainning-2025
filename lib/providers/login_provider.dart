@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider with ChangeNotifier {
+  final auth = FirebaseAuth.instance;
+
   bool _showPassword = false;
   bool get showPassword => _showPassword;
 
@@ -32,12 +35,35 @@ class LoginProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  void login() async {
+  String _loginError = "";
+  String get loginError => _loginError;
+
+  Future login() async {
     _isLoading = true;
     notifyListeners();
-    await Future.delayed(Duration(seconds: 3));
 
-    _isLoading = false;
+    try {
+      await auth.createUserWithEmailAndPassword(
+        email: "test@gmail.com",
+        password: "password",
+      );
+
+      await auth.signInWithEmailAndPassword(
+        email: "test@gmail.com",
+        password: "password",
+      );
+
+      auth.signOut();
+
+     
+
+      _isLoading = false;
+      debugPrint("Came here");
+    } catch (e) {
+      _loginError = '';
+      _isLoading = false;
+    }
+
     notifyListeners();
   }
 }
