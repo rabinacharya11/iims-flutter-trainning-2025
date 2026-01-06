@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider with ChangeNotifier {
-  final auth = FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
 
   bool _showPassword = false;
   bool get showPassword => _showPassword;
@@ -38,32 +38,49 @@ class LoginProvider with ChangeNotifier {
   String _loginError = "";
   String get loginError => _loginError;
 
-  Future login() async {
+  Future login({required String email, required String password}) async {
     _isLoading = true;
     notifyListeners();
 
     try {
-      await auth.createUserWithEmailAndPassword(
-        email: "test@gmail.com",
-        password: "password",
+      final user = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
-
-      await auth.signInWithEmailAndPassword(
-        email: "test@gmail.com",
-        password: "password",
-      );
-
-      auth.signOut();
-
-     
-
+      print(user);
       _isLoading = false;
-      debugPrint("Came here");
+      notifyListeners();
     } catch (e) {
-      _loginError = '';
       _isLoading = false;
+      notifyListeners();
+      debugPrint(e.toString());
     }
+  }
 
+  Future signUp({required String email, required String password}) async {
+    _isLoading = true;
     notifyListeners();
+
+    try {
+      final user = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print(user);
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      debugPrint(e.toString());
+    }
+  }
+
+  void logout() async {
+    try {
+      _auth.signOut();
+    } catch (e) {
+      print(e);
+    }
   }
 }

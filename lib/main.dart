@@ -1,6 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:port_app/chat_screen.dart';
+import 'package:port_app/http_test_screen.dart';
 import 'package:port_app/login_screen.dart';
+import 'package:port_app/providers/chat_provider.dart';
+import 'package:port_app/providers/http_provider.dart';
 import 'package:port_app/providers/login_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -10,7 +14,11 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => LoginProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => HttpProvider()),
+        ChangeNotifierProvider(create: (_) => ChatProvider()),
+      ],
 
       child: MeroApp(),
     ),
@@ -22,6 +30,6 @@ class MeroApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: LoginScreen());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: ChatScreen());
   }
 }

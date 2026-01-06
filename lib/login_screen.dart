@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart' ;
 import 'package:flutter/material.dart';
 import 'package:port_app/providers/login_provider.dart';
+import 'package:port_app/register_user_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -22,7 +24,10 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Welcome back", style: TextStyle(fontSize: 24)),
+                Text(
+                  "Welcome back, ${FirebaseAuth.instance.currentUser?.uid}",
+                  style: TextStyle(fontSize: 24),
+                ),
 
                 SizedBox(height: 16),
 
@@ -41,6 +46,12 @@ class LoginScreen extends StatelessWidget {
 
                           border: OutlineInputBorder(),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your email";
+                          }
+                          return null;
+                        },
 
                         keyboardType: TextInputType.emailAddress,
                       ),
@@ -67,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                             border: OutlineInputBorder(),
                           ),
 
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.visiblePassword,
 
                           validator: (value) {
                             if (value == null || value.length < 8) {
@@ -81,9 +92,7 @@ class LoginScreen extends StatelessWidget {
                       // String bata change garne method
                       Consumer<LoginProvider>(
                         builder: (context, value, child) => TextButton(
-                          onPressed: () {
-                            value.loginTextChange();
-                          },
+                          onPressed: () {},
                           child: Text(value.loginText),
                         ),
                       ),
@@ -104,11 +113,27 @@ class LoginScreen extends StatelessWidget {
                       Consumer<LoginProvider>(
                         builder: (context, value, child) => InkWell(
                           onTap: () {
-                            value.login();
+                            value.logout();
                           },
                           child: value.isLoading
                               ? CircularProgressIndicator()
-                              : Text("Login"),
+                              : Text("logout"),
+                        ),
+                      ),
+
+                      Consumer<LoginProvider>(
+                        builder: (context, value, child) => InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => RegisterUserScreen(),
+                              ),
+                            );
+                          },
+                          child: value.isLoading
+                              ? CircularProgressIndicator()
+                              : Text("Signup"),
                         ),
                       ),
 
