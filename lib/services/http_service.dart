@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as network;
 
 class ApiService {
-  static const String baseUrl = 'https://jsonplaceholder.typicode.com';
+  static const String baseUrl = 'https://api.friendli.ai/serverless/v1/chat/completions';
   Future post({
     required String path,
     required Map<String, dynamic> body,
   }) async {
     final headers = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer dfdghkjdhgjdg",
+      "Authorization": "Bearer <token>",
     };
     try {
       Uri uri = Uri.parse("$baseUrl/$path");
