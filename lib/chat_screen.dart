@@ -10,21 +10,25 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<ChatProvider>().sendMessage(userMsg: "");
+          context.read<ChatProvider>().sendMessage(
+            userMsg: "Hello, help me plan a budget for retirement",
+          );
         },
       ),
 
       body: SafeArea(
         child: Consumer<ChatProvider>(
-          builder: (context, value, child) => Column(
-            children: List.generate(value.chats.length, (index) {
-              return ListTile(
-                title: Text(value.chats[index].msg),
-                leading: Text(
-                  value.chats[index].isUser ? "User Message" : "AI message",
-                ),
-              );
-            }),
+          builder: (context, value, child) => SingleChildScrollView(
+            child: Column(
+              children: List.generate(value.chats.length, (index) {
+                return ListTile(
+                  title: Text(value.chats[index].msg),
+                  leading: Text(
+                    value.chats[index].isUser ? "User Message" : "AI message",
+                  ),
+                );
+              }),
+            ),
           ),
         ),
       ),

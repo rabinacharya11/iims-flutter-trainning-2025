@@ -15,6 +15,8 @@ class ChatProvider with ChangeNotifier {
   final _apiSevice = ApiService();
 
   Future sendMessage({required String userMsg}) async {
+    _chats.add(ChatMesssage(isUser: true, msg: userMsg));
+    notifyListeners();
     try {
       final systemPrompt =
           ''' You are a Financial Education AI, not a licensed financial advisor.
@@ -50,7 +52,9 @@ Tone and behavior:
         ],
       };
 
-      await _apiSevice.post(path: '', body: body);
+      final msg = await _apiSevice.post(path: '', body: body);
+      _chats.add(ChatMesssage(isUser: false, msg: msg));
+      notifyListeners();
     } catch (e) {
       print(e);
     }

@@ -3,22 +3,25 @@ import 'dart:convert';
 import 'package:http/http.dart' as network;
 
 class ApiService {
-  static const String baseUrl = 'https://api.friendli.ai/serverless/v1/chat/completions';
+  static const String baseUrl =
+      'https://api.friendli.ai/serverless/v1/chat/completions';
   Future post({
     required String path,
     required Map<String, dynamic> body,
   }) async {
     final headers = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer <token>",
+      "Authorization": "Bearer <your_token_here>",
     };
     try {
-      Uri uri = Uri.parse("$baseUrl/$path");
+      Uri uri = Uri.parse(
+        "https://api.friendli.ai/serverless/v1/chat/completions",
+      );
       final jsonBody = jsonEncode(body);
       final res = await network.post(uri, body: jsonBody, headers: headers);
-      print(res.body);
       final resBody = jsonDecode(res.body);
-      print(resBody);
+      final aiMsg = resBody['choices'][0]['message']['content'];
+      return aiMsg;
     } catch (e) {
       print(e);
     }
